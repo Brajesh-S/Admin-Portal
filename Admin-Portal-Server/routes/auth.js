@@ -10,10 +10,14 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
+    console.log('User not found');
     if (!user) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
+    console.log('User found:', user);
+    
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
