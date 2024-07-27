@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from './navBar';
+import './dashboard.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -12,9 +13,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="dashboard-container">
       <NavBar onLogout={handleLogout} />
-      <h1>Welcome Admin Panel</h1>
+      <div className="dashboard-content">
+        <h1>Welcome to Admin Panel</h1>
+        <p>Manage your business operations efficiently.</p>
+      </div>
     </div>
   );
 };
