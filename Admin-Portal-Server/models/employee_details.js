@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const EmployeeSchema = new mongoose.Schema({
   Image: {
     type: Buffer, 
-    required: true,
+    required: false,
   },
   Name: {
     type: String,

@@ -6,6 +6,10 @@ const mongoose = require("mongoose");
 const Employee = require('./models/employee_details'); // Adjust the path as necessary
 const auth = require("./middleware/verifyToken");
 const employeeRoutes = require('./routes/employee'); 
+const createEmployeeRoutes = require('./routes/createEmployee');
+const updateEmployeeRoutes = require('./routes/updateEmployee');
+const searchEmployeeRoutes = require('./routes/searchEmployee'); 
+const deleteEmployeeRoutes = require('./routes/deleteEmployee');
 const authRoutes = require("./routes/auth");
 require("dotenv").config();
 
@@ -83,6 +87,10 @@ mongoose
     });
     app.use("/api/auth", authRoutes);
     app.use('/api/employee', employeeRoutes);
+    app.use('/api/createEmployee', createEmployeeRoutes);
+    app.use('/api/updateEmployee', updateEmployeeRoutes);
+    app.use('/api/searchEmployee', searchEmployeeRoutes);
+    app.use('/api/deleteEmployee', deleteEmployeeRoutes);
 
     const port = process.env.PORT || 3000;
     app.listen(port, () => console.log(`Server running on port ${port}`));
