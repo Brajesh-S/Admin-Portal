@@ -45,6 +45,11 @@ const EmployeeList = () => {
     window.location.href = '/';
   };
 
+  const handleShowEmployeeList = () => {
+    setEditingEmployee(null);
+    setCreatingEmployee(false);
+  };
+
   const handleEditClick = (employee) => {
     setEditingEmployee(employee);
     setFormData({
@@ -150,14 +155,14 @@ const EmployeeList = () => {
 
   return (
     <div className="employee-list-container">
-      <NavBar onLogout={handleLogout} />
+      <NavBar onLogout={handleLogout} onShowEmployeeList={handleShowEmployeeList} />
       <div className="employee-list-content">
         {successMessage && <p className="success-message">{successMessage}</p>}
         {error && <p className="error-message">{error}</p>}
         {!editingEmployee && !creatingEmployee ? (
           <>
             <h1>Employee List</h1>
-            <button onClick={() => setCreatingEmployee(true)}>Create Employee</button>
+            <button className='create-button' onClick={() => setCreatingEmployee(true)}>Create Employee</button>
             <div className="table-container">
               <table className="employee-table">
                 <thead>
@@ -241,21 +246,18 @@ const EmployeeList = () => {
                   BCA
                 </label>
                 <label>
-                  <input type="checkbox" name="Course" value="BSC" checked={formData.Course.includes('BSC')} onChange={handleFormChange} />
-                  BSC
+                  <input type="checkbox" name="Course" value="MBA" checked={formData.Course.includes('MBA')} onChange={handleFormChange} />
+                  MBA
                 </label>
               </div>
 
               <label>Img Upload</label>
               <input type="file" name="Img" onChange={handleFormChange} />
 
-              <div className="form-buttons">
-                <button type="submit">Submit</button>
-                <button type="button" onClick={() => {
-                  setEditingEmployee(null);
-                  setCreatingEmployee(false);
-                }}>Cancel</button>
-              </div>
+              <button type="submit">{editingEmployee ? 'Update' : 'Create'}</button>
+              
+
+              <button type="button" onClick={() => { setEditingEmployee(null); setCreatingEmployee(false); }}>Cancel</button>
             </form>
           </div>
         )}
