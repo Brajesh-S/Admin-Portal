@@ -1,8 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const Employee = require('../models/employee_details');
-const multer = require('multer');
 
-const upload = multer();
 
 // Middleware for employee validation
 const validateEmployee = [

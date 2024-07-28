@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const EmployeeSchema = new mongoose.Schema({
-  Image: {
-    type: String, 
+  ImgUpload: {
+    type: String,
     required: false,
   },
   Name: {
@@ -35,5 +35,5 @@ const EmployeeSchema = new mongoose.Schema({
   },
 });
 
-const Employee = mongoose.model('Employee', EmployeeSchema, 'Employee_Details');
+const Employee = mongoose.model("Employee", EmployeeSchema, "Employee_Details");
 module.exports = Employee;

@@ -1,5 +1,5 @@
 
-//  employeeList.js
+// employeeList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from './navBar';
@@ -140,6 +140,7 @@ const EmployeeList = () => {
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
     }
+    console.log('Form data being sent:', formDataToSend);
 
     try {
       await axios.post('http://localhost:3000/api/createEmployee/create', formDataToSend, {
@@ -209,7 +210,8 @@ const EmployeeList = () => {
               <table className="employee-table">
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th>ID</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Date</th>
@@ -217,6 +219,7 @@ const EmployeeList = () => {
                     <th>Designation</th>
                     <th>Gender</th>
                     <th>Course</th>
+                    
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -225,6 +228,18 @@ const EmployeeList = () => {
                     filteredEmployees.map((emp, index) => (
                       <tr key={emp.UniqueId}>
                         <td>{index + 1}</td>
+                        <td>
+                          {emp.ImgUpload ? (
+                            <img
+                              src={`http://localhost:3000/uploads/${emp.ImgUpload.split('/').pop()}`}
+                              alt="Employee"
+                              className="employee-image"
+                              style={{ width: '50px', height: '50px' }} // Adjust size as needed
+                            />
+                          ) : (
+                            'No Image'
+                          )}
+                        </td>
                         <td>{emp.Name}</td>
                         <td>{emp.Email}</td>
                         <td>{new Date(emp.Createdate).toLocaleDateString()}</td>
@@ -232,6 +247,8 @@ const EmployeeList = () => {
                         <td>{emp.Designation}</td>
                         <td>{emp.Gender}</td>
                         <td>{emp.Course}</td>
+                        
+                    
                         <td>
                           <button onClick={() => handleEditClick(emp)}>Edit</button>
                           <button onClick={() => handleDeleteClick(emp.UniqueId)}>Delete</button>
@@ -240,7 +257,7 @@ const EmployeeList = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="9" className="no-data">{searchTerm ? 'No results found' : 'No employees found'}</td>
+                      <td colSpan="11" className="no-data">{searchTerm ? 'No results found' : 'No employees found'}</td>
                     </tr>
                   )}
                 </tbody>
@@ -251,73 +268,75 @@ const EmployeeList = () => {
           <div className="form-container">
             <h2>{editingEmployee ? 'Edit Employee' : 'Create Employee'}</h2>
             <form onSubmit={editingEmployee ? handleEditSubmit : handleCreateSubmit}>
-              <label>Name</label>
-              <input type="text" name="Name" value={formData.Name} onChange={handleFormChange} />
-
-              <label>Email</label>
-              <input type="email" name="Email" value={formData.Email} onChange={handleFormChange} />
-
-              <label>Mobile No</label>
-              <input type="text" name="Mobile" value={formData.Mobile} onChange={handleFormChange} />
-
-              <label>Designation</label>
-              <select name="Designation" value={formData.Designation} onChange={handleFormChange}>
-                <option value="HR">HR</option>
-                <option value="Manager">Manager</option>
-                <option value="Developer">Developer</option>
-              </select>
-
-              <label>Gender</label>
               <label>
-                <input
-                  type="radio"
-                  name="Gender"
-                  value="Male"
-                  checked={formData.Gender === 'Male'}
-                  onChange={handleFormChange}
-                />
-                Male
+                Name:
+                <input type="text" name="Name" value={formData.Name} onChange={handleFormChange} required />
               </label>
               <label>
-                <input
-                  type="radio"
-                  name="Gender"
-                  value="Female"
-                  checked={formData.Gender === 'Female'}
-                  onChange={handleFormChange}
-                />
-                Female
-              </label>
-
-              <label>Course</label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="Course"
-                  value="Course1"
-                  checked={formData.Course.includes('Course1')}
-                  onChange={handleFormChange}
-                />
-                Course1
+                Email:
+                <input type="email" name="Email" value={formData.Email} onChange={handleFormChange} required />
               </label>
               <label>
-                <input
-                  type="checkbox"
-                  name="Course"
-                  value="Course2"
-                  checked={formData.Course.includes('Course2')}
-                  onChange={handleFormChange}
-                />
-                Course2
+                Mobile:
+                <input type="text" name="Mobile" value={formData.Mobile} onChange={handleFormChange} required />
               </label>
-
-              <label>Img Upload</label>
-              <input type="file" name="Img" onChange={handleFormChange} />
-
+              <label>
+                Designation:
+                <select name="Designation" value={formData.Designation} onChange={handleFormChange} required>
+                  <option value="">Select</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Developer">Developer</option>
+                  <option value="Designer">Designer</option>
+                  {/* Add more options as needed */}
+                </select>
+              </label>
+              <label>
+                Gender:
+                <div>
+                  <label>
+                    <input type="radio" name="Gender" value="Male" checked={formData.Gender === 'Male'} onChange={handleFormChange} />
+                    Male
+                  </label>
+                  <label>
+                    <input type="radio" name="Gender" value="Female" checked={formData.Gender === 'Female'} onChange={handleFormChange} />
+                    Female
+                  </label>
+                </div>
+              </label>
+              <label>
+  Course:
+  <div>
+    <label>
+      <input type="checkbox" value="MCA" checked={formData.Course.includes('MCA')} onChange={handleFormChange} />
+      MCA
+    </label>
+    <label>
+      <input type="checkbox" value="BCA" checked={formData.Course.includes('BCA')} onChange={handleFormChange} />
+      BCA
+    </label>
+    <label>
+      <input type="checkbox" value="BSC" checked={formData.Course.includes('BSC')} onChange={handleFormChange} />
+      BSC
+    </label>
+  </div>
+</label>
+              <label>
+                Image:
+                <input type="file" name="ImgUpload" onChange={handleFormChange} />
+              </label>
               <button type="submit">{editingEmployee ? 'Update Employee' : 'Create Employee'}</button>
               <button type="button" onClick={() => {
                 setEditingEmployee(null);
                 setCreatingEmployee(false);
+                setFormData({
+                  Name: '',
+                  Email: '',
+                  Mobile: '',
+                  Designation: '',
+                  Gender: '',
+                  Course: [],
+                  Img: null,
+                });
               }}>Cancel</button>
             </form>
           </div>

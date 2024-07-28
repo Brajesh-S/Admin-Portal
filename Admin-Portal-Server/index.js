@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:3001"],
-    methods: ["POST", "GET", "PUT", "DELETE"],
+    methods: ["POST", "GET", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
@@ -95,6 +95,7 @@ mongoose
     app.use('/api/updateEmployee', updateEmployeeRoutes);
     app.use('/api/searchEmployee', searchEmployeeRoutes);
     app.use('/api/deleteEmployee', deleteEmployeeRoutes);
+    app.use('/uploads', express.static('uploads'));
 
     const port = process.env.PORT || 3000;
     app.listen(port, () => console.log(`Server running on port ${port}`));
