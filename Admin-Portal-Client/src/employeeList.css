@@ -1,80 +1,4 @@
-/* src/components/EmployeeList.css
-.employee-list-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .employee-list-content {
-    flex: 1;
-    padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  
-  .employee-list-content h1 {
-    font-size: 2rem;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-  }
-  
-  .error-message {
-    color: #e74c3c;
-    background-color: #fadbd8;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-  }
-  
-  .table-container {
-    overflow-x: auto;
-  }
-  
-  .employee-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .employee-table th,
-  .employee-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .employee-table th {
-    background-color: #f5f7fa;
-    font-weight: bold;
-    color: #2c3e50;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-  }
-  
-  .employee-table tbody tr:hover {
-    background-color: #f8f9fa;
-  }
-  
-  .employee-table .no-data {
-    text-align: center;
-    color: #7f8c8d;
-    padding: 20px;
-  }
-  
-  @media (max-width: 768px) {
-    .employee-list-content {
-      padding: 20px;
-    }
-  
-    .employee-table th,
-    .employee-table td {
-      padding: 10px;
-    }
-  } */
-   /* src/components/EmployeeList.css */
-
+/* 
 .employee-list-container {
     display: flex;
     flex-direction: column;
@@ -172,7 +96,7 @@
     opacity: 0.8;
   }
   
-  /* Edit Form Styles */
+
   .edit-form-container {
     background-color: #ffffff;
     padding: 30px;
@@ -279,4 +203,213 @@
       flex-direction: column;
       gap: 5px;
     }
+  } */
+
+  /* src/components/EmployeeList.css */
+
+.employee-list-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f7fa;
   }
+  
+  .employee-list-content {
+    flex: 1;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .employee-list-content h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+  }
+  
+  .success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .employee-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .employee-table th,
+  .employee-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .employee-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #2c3e50;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  
+  .employee-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .employee-table .no-data {
+    text-align: center;
+    color: #7f8c8d;
+    padding: 20px;
+  }
+  
+  .employee-table button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .employee-table button:first-child {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .employee-table button:last-child {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .employee-table button:hover {
+    opacity: 0.8;
+  }
+  
+  /* Form Styles */
+  .form-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-container h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-container label {
+    margin-bottom: 5px;
+    color: #34495e;
+    font-weight: bold;
+  }
+  
+  .form-container input[type="text"],
+  .form-container input[type="email"],
+  .form-container select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .form-container select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px auto;
+  }
+  
+  .form-container .radio-group,
+  .form-container .checkbox-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .form-container .radio-group label,
+  .form-container .checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+  }
+  
+  .form-container input[type="file"] {
+    margin-bottom: 15px;
+  }
+  
+  .form-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .form-container button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .form-container button[type="button"] {
+    background-color: #e74c3c;
+    color: white;
+    margin-left: 10px;
+  }
+  
+  .form-container button:hover {
+    opacity: 0.8;
+  }
+  
+  @media (max-width: 768px) {
+    .employee-list-content {
+      padding: 20px;
+    }
+  
+    .form-container {
+      padding: 20px;
+    }
+  
+    .employee-table th,
+    .employee-table td {
+      padding: 10px;
+    }
+  
+    .form-container .radio-group,
+    .form-container .checkbox-group {
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+  
