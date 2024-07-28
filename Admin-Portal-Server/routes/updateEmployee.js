@@ -36,7 +36,7 @@ const upload = multer({ storage: storage });
 router.use(bodyParser.json());
 
 // Update Employee
-router.put('/update/:id', auth, upload.single('ImgUpload'), validateEmployee, async (req, res) => {
+router.put('/update/:id', auth, upload.single('ImgUpload'), validateEmployee(true), async (req, res) => {
   try {
     const { id } = req.params;
     const { Name, Email, Mobile, Designation, Gender, Course } = req.body;

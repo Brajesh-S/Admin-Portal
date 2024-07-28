@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Create Employee
-router.post('/create', auth, upload.single('ImgUpload'), validateEmployee, async (req, res) => {
+router.post('/create',validateEmployee(), auth, upload.single('ImgUpload'), validateEmployee, async (req, res) => {
   try {
     const { Name, Email, Mobile, Designation, Gender, Course } = req.body;
 

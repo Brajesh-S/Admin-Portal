@@ -287,7 +287,7 @@ const EmployeeList = () => {
                   <option value="Manager">Manager</option>
                   <option value="Developer">Developer</option>
                   <option value="Designer">Designer</option>
-                  {/* Add more options as needed */}
+                 
                 </select>
               </label>
               <label>
