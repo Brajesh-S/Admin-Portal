@@ -1,16 +1,16 @@
 // src/components/Dashboard.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import NavBar from './navBar';
-import './dashboard.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import NavBar from "./navBar";
+import "./dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    navigate('/');
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    navigate("/");
   };
 
   return (

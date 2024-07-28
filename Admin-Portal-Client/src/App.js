@@ -1,9 +1,9 @@
 // src/App.js
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './login';
-import Dashboard from './dashboard';
-import EmployeeList from './employeeList';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./login";
+import Dashboard from "./dashboard";
+import EmployeeList from "./employeeList";
 
 function App() {
   return (

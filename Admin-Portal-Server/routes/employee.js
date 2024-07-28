@@ -1,26 +1,31 @@
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Employee = require('../models/employee_details');
-const auth = require('../middleware/verifyToken');
+const Employee = require("../models/employee_details");
+const auth = require("../middleware/verifyToken");
 
 // Fetch Employee Details
-router.get('/details', auth, async (req, res) => {
+router.get("/details", auth, async (req, res) => {
   try {
-    const employees = await Employee.find({}, {
-      _id: 1, 
-      ImgUpload: 1, 
-      Name: 1, 
-      Email: 1, 
-      Mobile: 1, 
-      Designation: 1, 
-      Gender: 1, 
-      Course: 1, 
-      Createdate: 1
-    }).sort({ Name: 1 }).lean().exec();
+    const employees = await Employee.find(
+      {},
+      {
+        _id: 1,
+        ImgUpload: 1,
+        Name: 1,
+        Email: 1,
+        Mobile: 1,
+        Designation: 1,
+        Gender: 1,
+        Course: 1,
+        Createdate: 1,
+      }
+    )
+      .sort({ Name: 1 })
+      .lean()
+      .exec();
 
     // Rename _id to UniqueId
-    const formattedEmployees = employees.map(employee => ({
+    const formattedEmployees = employees.map((employee) => ({
       UniqueId: employee._id,
       ImgUpload: employee.ImgUpload,
       Name: employee.Name,
@@ -29,12 +34,12 @@ router.get('/details', auth, async (req, res) => {
       Designation: employee.Designation,
       Gender: employee.Gender,
       Course: employee.Course,
-      Createdate: employee.Createdate
+      Createdate: employee.Createdate,
     }));
 
     res.json(formattedEmployees);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch employees' });
+    res.status(500).json({ error: "Failed to fetch employees" });
   }
 });
 

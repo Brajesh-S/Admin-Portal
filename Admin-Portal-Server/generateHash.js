@@ -1,7 +1,7 @@
 // generateHash.js
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
-const password = 'password123';
+const password = "password123";
 const salt = bcrypt.genSaltSync(10);
 const hashedPassword = bcrypt.hashSync(password, salt);
 
