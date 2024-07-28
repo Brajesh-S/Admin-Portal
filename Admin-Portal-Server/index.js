@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
 const Employee = require('./models/employee_details'); // Adjust the path as necessary
 const auth = require("./middleware/verifyToken");
 const employeeRoutes = require('./routes/employee'); 
@@ -13,6 +14,9 @@ const deleteEmployeeRoutes = require('./routes/deleteEmployee');
 const authRoutes = require("./routes/auth");
 require("dotenv").config();
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(

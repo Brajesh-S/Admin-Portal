@@ -1,5 +1,8 @@
 const { body, validationResult } = require('express-validator');
 const Employee = require('../models/employee_details');
+const multer = require('multer');
+
+const upload = multer();
 
 // Middleware for employee validation
 const validateEmployee = [
@@ -22,7 +25,6 @@ const validateEmployee = [
     if (existingEmployee) {
       return res.status(400).json({ msg: 'Email already exists' });
     }
-
     next();
   }
 ];
