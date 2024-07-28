@@ -1,4 +1,5 @@
 
+//  employeeList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from './navBar';
@@ -6,6 +7,8 @@ import './employeeList.css';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState('');
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [creatingEmployee, setCreatingEmployee] = useState(false);
@@ -31,6 +34,7 @@ const EmployeeList = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEmployees(response.data);
+      setFilteredEmployees(response.data); // Initialize filtered employees
     } catch (err) {
       setError('Failed to fetch employees');
     }
@@ -74,7 +78,7 @@ const EmployeeList = () => {
       await axios.delete(`http://localhost:3000/api/deleteEmployee/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setEmployees(employees.filter(emp => emp.UniqueId !== id));
+      fetchEmployees(); // Refresh the employee list after deletion
     } catch (err) {
       setError('Failed to delete employee');
     }
@@ -116,7 +120,7 @@ const EmployeeList = () => {
           'Content-Type': 'multipart/form-data',
         }
       });
-      setEmployees(employees.map(emp => emp.UniqueId === editingEmployee.UniqueId ? { ...emp, ...formData } : emp));
+      fetchEmployees(); // Refresh the employee list after update
       setEditingEmployee(null);
       setSuccessMessage('Employee updated successfully');
       setTimeout(() => setSuccessMessage(''), 3000);
@@ -138,18 +142,38 @@ const EmployeeList = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/createEmployee/create', formDataToSend, {
+      await axios.post('http://localhost:3000/api/createEmployee/create', formDataToSend, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         }
       });
-      await fetchEmployees(); // Fetch the updated list of employees
+      fetchEmployees(); // Fetch the updated list of employees
       setCreatingEmployee(false);
       setSuccessMessage('Employee created successfully');
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       setError('Failed to create employee');
+    }
+  };
+
+  const handleSearch = async (e) => {
+    setSearchTerm(e.target.value);
+    if (e.target.value.trim() === '') {
+      setFilteredEmployees(employees);
+      return;
+    }
+    try {
+      const response = await axios.get(`http://localhost:3000/api/searchEmployee/search?name=${e.target.value}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (response.data.employees.length === 0) {
+        setFilteredEmployees([]);
+      } else {
+        setFilteredEmployees(response.data.employees);
+      }
+    } catch (err) {
+      setError('Failed to search employees');
     }
   };
 
@@ -162,14 +186,32 @@ const EmployeeList = () => {
         {!editingEmployee && !creatingEmployee ? (
           <>
             <h1>Employee List</h1>
-            <button className='create-button' onClick={() => setCreatingEmployee(true)}>Create Employee</button>
+            <button className='create-button' onClick={() => {
+              setCreatingEmployee(true);
+              setFormData({
+                Name: '',
+                Email: '',
+                Mobile: '',
+                Designation: '',
+                Gender: '',
+                Course: [],
+                Img: null,
+              });
+            }}>Create Employee</button>
+            <input
+              type="text"
+              placeholder="Search by name"
+              value={searchTerm}
+              onChange={handleSearch}
+              className="search-box"
+            />
             <div className="table-container">
               <table className="employee-table">
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>ID</th>
                     <th>Date</th>
                     <th>Mobile</th>
                     <th>Designation</th>
@@ -179,12 +221,12 @@ const EmployeeList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {employees.length > 0 ? (
-                    employees.map(emp => (
+                  {filteredEmployees.length > 0 ? (
+                    filteredEmployees.map((emp, index) => (
                       <tr key={emp.UniqueId}>
+                        <td>{index + 1}</td>
                         <td>{emp.Name}</td>
                         <td>{emp.Email}</td>
-                        <td>{emp.UniqueId}</td>
                         <td>{new Date(emp.Createdate).toLocaleDateString()}</td>
                         <td>{emp.Mobile}</td>
                         <td>{emp.Designation}</td>
@@ -198,7 +240,7 @@ const EmployeeList = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="9" className="no-data">No employees found</td>
+                      <td colSpan="9" className="no-data">{searchTerm ? 'No results found' : 'No employees found'}</td>
                     </tr>
                   )}
                 </tbody>
@@ -222,42 +264,61 @@ const EmployeeList = () => {
               <select name="Designation" value={formData.Designation} onChange={handleFormChange}>
                 <option value="HR">HR</option>
                 <option value="Manager">Manager</option>
-                <option value="Sales">Sales</option>
+                <option value="Developer">Developer</option>
               </select>
 
-              <div className="radio-group">
-                <label>
-                  <input type="radio" name="Gender" value="Male" checked={formData.Gender === 'Male'} onChange={handleFormChange} />
-                  Male
-                </label>
-                <label>
-                  <input type="radio" name="Gender" value="Female" checked={formData.Gender === 'Female'} onChange={handleFormChange} />
-                  Female
-                </label>
-              </div>
+              <label>Gender</label>
+              <label>
+                <input
+                  type="radio"
+                  name="Gender"
+                  value="Male"
+                  checked={formData.Gender === 'Male'}
+                  onChange={handleFormChange}
+                />
+                Male
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="Gender"
+                  value="Female"
+                  checked={formData.Gender === 'Female'}
+                  onChange={handleFormChange}
+                />
+                Female
+              </label>
 
-              <div className="checkbox-group">
-                <label>
-                  <input type="checkbox" name="Course" value="MCA" checked={formData.Course.includes('MCA')} onChange={handleFormChange} />
-                  MCA
-                </label>
-                <label>
-                  <input type="checkbox" name="Course" value="BCA" checked={formData.Course.includes('BCA')} onChange={handleFormChange} />
-                  BCA
-                </label>
-                <label>
-                  <input type="checkbox" name="Course" value="MBA" checked={formData.Course.includes('MBA')} onChange={handleFormChange} />
-                  MBA
-                </label>
-              </div>
+              <label>Course</label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="Course"
+                  value="Course1"
+                  checked={formData.Course.includes('Course1')}
+                  onChange={handleFormChange}
+                />
+                Course1
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="Course"
+                  value="Course2"
+                  checked={formData.Course.includes('Course2')}
+                  onChange={handleFormChange}
+                />
+                Course2
+              </label>
 
               <label>Img Upload</label>
               <input type="file" name="Img" onChange={handleFormChange} />
 
-              <button type="submit">{editingEmployee ? 'Update' : 'Create'}</button>
-              
-
-              <button type="button" onClick={() => { setEditingEmployee(null); setCreatingEmployee(false); }}>Cancel</button>
+              <button type="submit">{editingEmployee ? 'Update Employee' : 'Create Employee'}</button>
+              <button type="button" onClick={() => {
+                setEditingEmployee(null);
+                setCreatingEmployee(false);
+              }}>Cancel</button>
             </form>
           </div>
         )}
